@@ -35,9 +35,9 @@ module.exports = function(robot) {
 ## TODO
 
 - [x] support `.js` scripts
-- [ ] support `.coffee` scripts
+- [x] support `.coffee` scripts
 - [x] support robot.respond
-- [ ] support robot.hear
+- [x] support robot.hear
 - [ ] support more complex methods (e.x. robot.http)
 - [ ] support `external-scripts.json`
 - [ ] support `hubot-scripts.json`
