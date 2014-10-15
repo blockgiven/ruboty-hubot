@@ -37,15 +37,18 @@ var ruboty = {
 
   // mention
   receiveMention: function (text) {
+    return ruboty.receive(text, ruboty.respondHandlers);
+  },
+  receive: function (text, handlers) {
     var i, len, match, message;
-    for (i = 0, len = ruboty.respondHandlers.length; i < len; i++) {
-      if (match = text.match(ruboty.respondHandlers[i].regexp)) {
+    for (i = 0, len = handlers.length; i < len; i++) {
+      if (match = text.match(handlers[i].regexp)) {
         message = {
           match: match,
           sentText: null,
           send: function (text) { return message.sentText = text; }
         };
-        ruboty.respondHandlers[i].callback(message);
+        handlers[i].callback(message);
         return message.sentText;
       }
     }
