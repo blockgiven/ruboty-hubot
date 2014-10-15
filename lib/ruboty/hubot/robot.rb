@@ -29,17 +29,7 @@ var ruboty = {
 
   respond: function (regexp, callback) {
     ruboty.respondHandlers.push({
-      response: function (text) {
-        var match;
-        if (match = text.match(regexp)) {
-          var message = {
-            match: match,
-            sentText: null,
-            send: function (text) { return message.sentText = text; }
-          };
-          return message;
-        }
-      },
+      regexp: regexp,
       callback: callback
     });
   },
@@ -49,10 +39,16 @@ var ruboty = {
 
   // mention
   receive: function (text) {
-    var i, len, res;
+    var i, len, match, message;
     for (i = 0, len = ruboty.respondHandlers.length; i < len; i++) {
-      if (res = ruboty.respondHandlers[i].response(text)) {
-        return ruboty.respondHandlers[i].callback(res);
+      if (match = text.match(ruboty.respondHandlers[i].regexp)) {
+        message = {
+          match: match,
+          sentText: null,
+          send: function (text) { return message.sentText = text; }
+        };
+        ruboty.respondHandlers[i].callback(message);
+        return message.sentText;
       }
     }
     return undefined;
