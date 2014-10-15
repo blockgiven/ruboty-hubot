@@ -22,8 +22,6 @@ module Ruboty
 
       def robot_js
         @robot_js = <<ROBOT_JS
-var module = {};
-
 var ruboty = {
   respondHandlers: [],
 
@@ -54,8 +52,8 @@ var ruboty = {
     return undefined;
   }
 };
-
-#{scripts.map {|s| "#{s};\nmodule.exports(ruboty);\n" }.join(";\n")}
+var module = {};
+#{scripts.map {|s| "#{s};\nif (module.exports) { module.exports(ruboty); module.exports = undefined; }\n" }.join(";\n")}
 
 ROBOT_JS
       end
