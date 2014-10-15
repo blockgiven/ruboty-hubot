@@ -1,9 +1,11 @@
 require 'execjs'
+require 'singleton'
 
 module Ruboty
   module Hubot
     class Robot
       include Mem
+      include Singleton
 
       def receive(text)
         if res_text = robot_context.call("ruboty.receive", text)
