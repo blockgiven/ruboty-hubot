@@ -33,9 +33,10 @@ var module = {};
 #{@scripts.join(";\n")}
 
 var ruboty = {
-  handlers: [],
+  respondHandlers: [],
+
   respond: function (regexp, callback) {
-    ruboty.handlers.push({
+    ruboty.respondHandlers.push({
       response: function (text) {
         var match;
         if (match = text.match(regexp)) {
@@ -57,9 +58,9 @@ var ruboty = {
   // mention
   receive: function (text) {
     var i, len, res;
-    for (i = 0, len = ruboty.handlers.length; i < len; i++) {
-      if (res = ruboty.handlers[i].response(text)) {
-        return ruboty.handlers[i].callback(res);
+    for (i = 0, len = ruboty.respondHandlers.length; i < len; i++) {
+      if (res = ruboty.respondHandlers[i].response(text)) {
+        return ruboty.respondHandlers[i].callback(res);
       }
     }
     return undefined;
