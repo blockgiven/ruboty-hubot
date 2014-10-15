@@ -74,7 +74,7 @@ var ruboty = {
   }
 };
 var module = {};
-#{scripts.map {|s| "#{s};\nif (module.exports) { module.exports(ruboty); module.exports = undefined; }\n" }.join(";\n")}
+#{scripts.map {|s| "#{s}\nif (module.exports) { module.exports(ruboty); module.exports = undefined; }\n" }.join("\n")}
 
 ROBOT_JS
       end
