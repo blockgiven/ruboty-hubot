@@ -7,8 +7,8 @@ module Ruboty
       include Mem
       include Singleton
 
-      def receive(text)
-        if res_text = robot_context.call("ruboty.receive", text)
+      def receive_mention(text)
+        if res_text = robot_context.call("ruboty.receiveMention", text)
           yield res_text if block_given?
         end
       end
@@ -36,7 +36,7 @@ var ruboty = {
   hear: undefined,
 
   // mention
-  receive: function (text) {
+  receiveMention: function (text) {
     var i, len, match, message;
     for (i = 0, len = ruboty.respondHandlers.length; i < len; i++) {
       if (match = text.match(ruboty.respondHandlers[i].regexp)) {
