@@ -33,37 +33,37 @@ var module = {};
 #{@scripts.join(";\n")}
 
 var ruboty = {
-handlers: [],
-respond: function (regexp, callback) {
-ruboty.handlers.push({
-response: function (text) {
-  var match;
-  if (match = text.match(regexp)) {
-    var res = {
-      match: match,
-      sentText: null,
-      send: function (text) { return res.sentText = text; }
-    };
-    return res;
+  handlers: [],
+  respond: function (regexp, callback) {
+    ruboty.handlers.push({
+      response: function (text) {
+        var match;
+        if (match = text.match(regexp)) {
+          var res = {
+            match: match,
+            sentText: null,
+            send: function (text) { return res.sentText = text; }
+          };
+          return res;
+        }
+      },
+      callback: callback
+    });
+  },
+
+  // all
+  hear: undefined,
+
+  // mention
+  receive: function (text) {
+    var i, len, res;
+    for (i = 0, len = ruboty.handlers.length; i < len; i++) {
+      if (res = ruboty.handlers[i].response(text)) {
+        return ruboty.handlers[i].callback(res);
+      }
+    }
+    return undefined;
   }
-},
-callback: callback
-});
-},
-
-// all
-hear: undefined,
-
-// mention
-receive: function (text) {
-var i, len, res;
-for (i = 0, len = ruboty.handlers.length; i < len; i++) {
-if (res = ruboty.handlers[i].response(text)) {
-  return ruboty.handlers[i].callback(res);
-}
-}
-return undefined;
-}
 };
 
 module.exports(ruboty);
