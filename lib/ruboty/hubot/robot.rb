@@ -7,6 +7,12 @@ module Ruboty
       include Mem
       include Singleton
 
+      def receive_all(text)
+        if res_text = robot_context.call("ruboty.receiveAll", text)
+          yield res_text if block_given?
+        end
+      end
+
       def receive_mention(text)
         if res_text = robot_context.call("ruboty.receiveMention", text)
           yield res_text if block_given?
@@ -23,6 +29,7 @@ module Ruboty
       def robot_js
         @robot_js = <<ROBOT_JS
 var ruboty = {
+  // mention
   respondHandlers: [],
 
   respond: function (regexp, callback) {
@@ -32,13 +39,24 @@ var ruboty = {
     });
   },
 
-  // all
-  hear: undefined,
-
-  // mention
   receiveMention: function (text) {
     return ruboty.receive(text, ruboty.respondHandlers);
   },
+
+  // all
+  hearHandlers: [],
+
+  hear: function (regexp, callback) {
+    ruboty.hearHandlers.push({
+      regexp: regexp,
+      callback: callback
+    });
+  },
+
+  receiveAll: function (text) {
+    return ruboty.receive(text, ruboty.hearHandlers);
+  },
+
   receive: function (text, handlers) {
     var i, len, match, message;
     for (i = 0, len = handlers.length; i < len; i++) {
