@@ -30,8 +30,6 @@ module Ruboty
         @robot_js = <<ROBOT_JS
 var module = {};
 
-#{@scripts.join(";\n")}
-
 var ruboty = {
   respondHandlers: [],
 
@@ -67,7 +65,8 @@ var ruboty = {
   }
 };
 
-module.exports(ruboty);
+#{@scripts.map {|s| "#{s};\nmodule.exports(ruboty);\n" }.join(";\n")}
+
 ROBOT_JS
       end
     end
