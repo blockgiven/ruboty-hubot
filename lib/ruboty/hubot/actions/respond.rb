@@ -5,16 +5,8 @@ module Ruboty
         class << self
           include Mem
 
-          def scripts
-            Dir.glob(File.join(Dir.pwd, 'scripts/*')).map do |path|
-              Script.new(path)
-            end
-          end
-
           def robot
-            robot = Robot.new
-            scripts.each {|script| robot.load_script script }
-            robot
+            Robot.new
           end
           memoize :robot
         end

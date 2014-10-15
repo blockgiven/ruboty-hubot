@@ -5,14 +5,6 @@ module Ruboty
     class Robot
       include Mem
 
-      def initialize
-        @scripts = []
-      end
-
-      def load_script(script)
-        @scripts << script
-      end
-
       def receive(text)
         if res_text = robot_context.call("ruboty.receive", text)
           yield res_text if block_given?
@@ -65,9 +57,15 @@ var ruboty = {
   }
 };
 
-#{@scripts.map {|s| "#{s};\nmodule.exports(ruboty);\n" }.join(";\n")}
+#{scripts.map {|s| "#{s};\nmodule.exports(ruboty);\n" }.join(";\n")}
 
 ROBOT_JS
+      end
+
+      def scripts
+        Dir.glob(File.join(Dir.pwd, 'scripts/*')).map do |path|
+          Script.new(path)
+        end
       end
     end
   end
