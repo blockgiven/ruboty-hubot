@@ -4,7 +4,7 @@ module Ruboty
       class Respond < Ruboty::Actions::Base
         def call
           Robot.instance.receive_mention(message.body) do |res|
-            message.reply("@#{message.from_name} #{res}")
+            message.reply(res)
           end
         end
       end
