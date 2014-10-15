@@ -32,12 +32,12 @@ var ruboty = {
       response: function (text) {
         var match;
         if (match = text.match(regexp)) {
-          var res = {
+          var message = {
             match: match,
             sentText: null,
-            send: function (text) { return res.sentText = text; }
+            send: function (text) { return message.sentText = text; }
           };
-          return res;
+          return message;
         }
       },
       callback: callback
